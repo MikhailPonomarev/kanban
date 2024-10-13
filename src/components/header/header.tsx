@@ -1,6 +1,6 @@
 import { StyledHeader, Title, User } from './header.style';
-import { ReactComponent as UserIcon } from '../../assets/user-avatar.svg'
-import { ReactComponent as ArrowDown } from '../../assets/arrow-down.svg'
+import { ReactComponent as UserIcon } from '../../assets/header/user-avatar.svg';
+import { ReactComponent as ArrowDown } from '../../assets/header/arrow-down.svg';
 
 const Header = () => {
     return (

@@ -1,12 +1,12 @@
 import Footer from '../components/footer/footer';
 import Header from '../components/header/header';
-import StyledTasksBoard from '../components/tasks/tasksBoard';
+import TasksBoard from '../components/tasks/board/tasksBoard';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <StyledTasksBoard />
+      <TasksBoard />
       <Footer />
     </div>
   );

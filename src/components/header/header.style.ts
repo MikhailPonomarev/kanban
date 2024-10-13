@@ -19,4 +19,5 @@ export const User = styled.div`
     align-items: center;
     width: 65px;
     height: 40px;
+    cursor: pointer;
 `;
