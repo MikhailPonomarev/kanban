@@ -5,13 +5,13 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './global.style';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <GlobalStyle />
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <GlobalStyle />
+        <App />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

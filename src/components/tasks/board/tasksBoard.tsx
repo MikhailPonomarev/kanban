@@ -1,13 +1,15 @@
+import React from "react";
 import TasksColumn from "../column/tasksColumn";
 import { StyledTasksBoard } from "./tasksBoard.style"
+import { DataList } from "../../../data/mock";
 
-const TasksBoard = () => {
+const TasksBoard: React.FC<DataList> = ({ dataList }) => {
     return (
         <StyledTasksBoard>
-            <TasksColumn title='Backlog' tasks={[{id: 1, name: 'Login page – performance issues', description: ''}]} />
-            <TasksColumn title='Ready' tasks={[{id: 2, name: 'Shop page – performance issues', description: ''}]} />
-            <TasksColumn title='In Progress' tasks={[{id: 3, name: 'User page – performance issues', description: ''}]} />
-            <TasksColumn title='Finished' tasks={[{id: 4, name: 'Main page – performance issues', description: ''}]} />
+            <TasksColumn title={dataList[0].title} tasks={dataList[0].tasks} />
+            <TasksColumn title={dataList[1].title} tasks={dataList[1].tasks} />
+            <TasksColumn title={dataList[2].title} tasks={dataList[2].tasks} />
+            <TasksColumn title={dataList[3].title} tasks={dataList[3].tasks} />
         </StyledTasksBoard>
     )
 }
