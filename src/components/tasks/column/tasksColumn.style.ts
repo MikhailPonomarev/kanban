@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors, transitions } from '../../../style/variables.style';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -6,38 +7,38 @@ export const Wrapper = styled.div`
     width: 270px;
     height: fit-content;
     padding: 12px;
-    background-color: #ebecf0;
+    background-color: ${colors.lightGrey};
     border-radius: 10px;
 `;
 
 export const Title = styled.span`
     margin-bottom: 10px;
     font-size: 18px;
-    color: black;
+    color: ${colors.black};
 `;
 
 export const TasksList = styled.ul`
+    list-style: none;
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 10px;
     margin-bottom: 0px;
     padding: 0;
-    list-style: none;
 `;
 
 export const Task = styled.li`
     padding: 8px;
     font-size: 18px;
-    color: black;
-    background-color: white;
+    color: ${colors.black};
+    background-color: ${colors.white};
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: ${transitions.backgroundColor};
 
     &:hover {
-        background-color: #5e6c84;
-        color: white;
+        background-color: ${colors.darkGrey};
+        color: ${colors.white};
     }
 `;
 
@@ -57,41 +58,40 @@ export const AddCardBtn = styled.button`
     padding: 5px;
     width: 110px;
     font-size: 18px;
-    color: #5e6c84;
+    color: ${colors.darkGrey};
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: ${transitions.backgroundColor};
 
     &:hover {
-        background-color: white;
+        background-color: ${colors.white};
     }
 
-    span {
-        margin-left: 5px;
+    svg {
+        margin-right: 5px;
     }
 `;
 
-export const SubmitBtn = styled.button`
+export const SubmitBtn = styled(AddCardBtn)`
+    color: ${colors.white};
+    background-color: ${colors.primaryBlue};
+
+    &:hover {
+        background-color: ${colors.darkGrey};
+    }
+`;
+
+export const Dropdown = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    padding: 5px;
-    width: 110px;
-    font-size: 18px;
-    color: white;
-    background-color: #0079bf;
-    border: none;
+    justify-content: end;
+    height: 35px;
+    margin-top: 15px;
+    background-color: ${colors.white};
     border-radius: 5px;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-
-    &:hover {
-        background-color: #5e6c84;
-    }
-
-    span {
-        margin-left: 5px;
-    }
 `;
+
+export const List = styled.ul``;

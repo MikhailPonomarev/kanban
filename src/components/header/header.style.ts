@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from '../../style/variables.style';
 
 export const StyledHeader = styled.header`
     display: flex;
@@ -6,12 +7,12 @@ export const StyledHeader = styled.header`
     justify-content: space-between;
     padding: 0 15px;
     height: 55px;
-    background-color: #0067a3;
+    background-color: ${colors.secondaryBlue};
 `;
 
 export const Title = styled.span`
     font-size: 28px;
-    color: white;
+    color: ${colors.white};
 `;
 
 export const User = styled.div`
