@@ -59,6 +59,7 @@ export const AddCardBtn = styled.button`
     width: 110px;
     font-size: 18px;
     color: ${colors.darkGrey};
+    background-color: ${colors.lightGrey};
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -82,16 +83,34 @@ export const SubmitBtn = styled(AddCardBtn)`
     }
 `;
 
-export const Dropdown = styled.div`
+export const DropdownBtn = styled.button`
     display: flex;
     align-items: center;
     justify-content: end;
     height: 35px;
     margin-top: 15px;
+    padding-right: 8px;
     background-color: ${colors.white};
     border-radius: 5px;
     border: none;
     cursor: pointer;
 `;
 
-export const List = styled.ul``;
+export const DropdownMenu = styled.ul`
+    list-style: none;
+    margin-top: 3px;
+    padding: 0px;
+    background-color: ${colors.white};
+    border-radius: 5px;
+`;
+
+export const DropdownItem = styled.li`
+    padding: 8px;
+    font-size: 18px;
+    transition: ${transitions.backgroundColor};
+    cursor: pointer;
+
+    &:hover {
+        background-color: ${colors.lightGrey};
+    }
+`;
