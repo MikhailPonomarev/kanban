@@ -1,34 +1,46 @@
-import { FC, useState } from 'react';
+import { FC, SetStateAction, useState } from 'react';
 import { ITask } from '../../../../model/task';
 import { List, Task, NewTaskInput } from './tasksList.style';
 import SelectTask from '../dropdown/selectTask';
-import { BaseProps } from '../../props/baseProps';
+import { TasksProps } from '../../tasksProps';
 
-interface Props extends BaseProps {
+interface Props extends TasksProps {
     tasks: ITask[];
     showInput: boolean;
+    setShowSubmitBtn: (value: SetStateAction<boolean>) => void;
+    setTaskTitle: (value: SetStateAction<string>) => void;
+    showSelectTask: boolean;
+    setShowSelectTask: (value: SetStateAction<boolean>) => void;
 }
 
-const TasksList: FC<Props> = ({ tasks, columnTitle, showInput, updateTasks }) => {
-    const [taskTitle, setTaskTitle] = useState<string>('');
+const TasksList: FC<Props> = (props: Props) => {
+    const [inputValue, setInputValue] = useState<string>('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(e.target.value);
+        setInputValue(e.target.value);
+        props.setTaskTitle(e.target.value);
+        props.setShowSubmitBtn(true);
     }
 
     return (
         <>
             <List>
-                {tasks.map((it) => <Task key={it.id}>{it.name}</Task>)}
-                {showInput && (
+                {props.tasks.map((it) => <Task key={it.id}>{it.name}</Task>)}
+                {props.showInput && (
                     <NewTaskInput 
-                        value={taskTitle} 
+                        value={inputValue} 
                         onChange={handleInputChange} 
-                        placeholder='Enter task title'/>
-                    )
-                }
+                        placeholder='Enter task title'
+                    />
+                )}
             </List>
-            <SelectTask columnTitle={columnTitle} updateTasks={updateTasks} />
+            {props.showSelectTask && (
+                <SelectTask 
+                    columnTitle={props.columnTitle} 
+                    updateTasks={props.updateTasks} 
+                    setShowSelectTasks={props.setShowSelectTask} 
+                />
+            )}
         </>
     );
 }

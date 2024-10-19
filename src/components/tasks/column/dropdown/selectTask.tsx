@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, SetStateAction, useState } from 'react';
 import { ReactComponent as ArrowDown } from '../../../../assets/common/arrow-down-black.svg';
 import { ColumnTitle } from '../../../../model/columnTitle';
 import { DropdownBtn, DropdownMenu, DropdownItem } from './selectTask.style';
@@ -9,9 +9,13 @@ import {
     getTaskFromLocalStorage, 
     removeTaskFromLocalStorage 
 } from '../../../../util/localStorage';
-import { BaseProps } from '../../props/baseProps';
+import { TasksProps } from '../../tasksProps';
 
-const SelectTask: FC<BaseProps> = ({ columnTitle, updateTasks }) => {
+interface Props extends TasksProps {
+    setShowSelectTasks: (value: SetStateAction<boolean>) => void;
+}
+
+const SelectTask: FC<Props> = ({ columnTitle, updateTasks, setShowSelectTasks }) => {
     const [dropdownItems, setDropdownItems] = useState<ITask[]>([]);
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
@@ -59,6 +63,7 @@ const SelectTask: FC<BaseProps> = ({ columnTitle, updateTasks }) => {
         addTaskInLocalStorage(columnTitle, newTask);
         updateTasks(columnTitle);
         setDropdownItems(dropdownItems.filter((it) => it.id !== taskFromLS!.id));
+        setShowSelectTasks(false);
     }
 
     return (

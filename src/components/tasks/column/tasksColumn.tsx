@@ -5,19 +5,29 @@ import { faker } from '@faker-js/faker';
 import { addTaskInLocalStorage } from '../../../util/localStorage';
 import { ITask } from '../../../model/task';
 import TasksList from './list/tasksList';
-import { BaseProps } from '../props/baseProps';
+import { TasksProps } from '../tasksProps';
 import SubmitBtn from './button/submitBtn';
 import AddCardBtn from './button/addCardBtn';
+import { ColumnTitle } from '../../../model/columnTitle';
 
-interface Props extends BaseProps {
+interface Props extends TasksProps {
     tasks: ITask[];
 }
 
 const TasksColumn: FC<Props> = ({ columnTitle, tasks, updateTasks }) => {
     const [showInput, setShowInput] = useState<boolean>(false);
+    const [showSelectTask, setShowSelectTask] = useState<boolean>(false);
     const [taskTitle, setTaskTitle] = useState<string>('');
+    const [showSubmitBtn, setShowSubmitBtn] = useState<boolean>(false);
 
-    const handleAddCardBtnClick = () => setShowInput(true);
+    const handleAddCardBtnClick = () => {
+        if (columnTitle === ColumnTitle.BACKLOG) {
+            setTaskTitle('');
+            setShowInput(true);
+        } else {
+            setShowSelectTask(true);
+        }
+    }
 
     const handleSubmitBtnClick = () => {
         if (taskTitle.trim() !== '') {
@@ -30,6 +40,7 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks, updateTasks }) => {
             updateTasks(columnTitle);
             setTaskTitle('');
             setShowInput(false);
+            setShowSubmitBtn(false);
         }
     }
 
@@ -39,12 +50,21 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks, updateTasks }) => {
 
     return (
         <TasksListWrapper>
-            <Title>{columnTitle}</Title>
-            <TasksList tasks={tasks} columnTitle={columnTitle} showInput={showInput} updateTasks={updateTasks}/>
-            {taskTitle.length > 0 ? (
-                <SubmitBtn />
+            <Title >{columnTitle}</Title>
+            <TasksList 
+                tasks={tasks} 
+                columnTitle={columnTitle}
+                showInput={showInput} 
+                updateTasks={updateTasks}
+                setShowSubmitBtn={setShowSubmitBtn}
+                setTaskTitle={setTaskTitle}
+                showSelectTask={showSelectTask}
+                setShowSelectTask={setShowSelectTask}
+            />
+            {showSubmitBtn ? (
+                <SubmitBtn handleClick={handleSubmitBtnClick}/>
             ) : (
-                <AddCardBtn />
+                <AddCardBtn handleClick={handleAddCardBtnClick} />
             )}
         </TasksListWrapper>
     );

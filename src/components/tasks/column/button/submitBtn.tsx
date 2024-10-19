@@ -1,9 +1,10 @@
+import { FC } from "react";
 import { SubmitButton } from "./submitBtn.style";
+import { ButtonProps } from "./buttonProps";
 
-const SubmitBtn = () => {
+const SubmitBtn: FC<ButtonProps> = ({ handleClick }) => {
     return (
-        // <SubmitButton onClick={handleSubmitBtnClick}>
-        <SubmitButton>
+        <SubmitButton onClick={handleClick}>
             Submit
         </SubmitButton>
     );

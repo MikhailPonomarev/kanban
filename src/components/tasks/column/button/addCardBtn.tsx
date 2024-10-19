@@ -1,10 +1,11 @@
+import { FC } from 'react';
 import { ReactComponent as AddCardIcon } from '../../../../assets/board/add-card.svg';
 import { AddButton } from './addCardBtn.style';
+import { ButtonProps } from './buttonProps';
 
-const AddCardBtn = () => {
+const AddCardBtn: FC<ButtonProps> = ({ handleClick }) => {
     return (
-        // <AddCardBtn onClick={handleAddCardBtnClick}>
-        <AddButton>
+        <AddButton onClick={handleClick}>
             <AddCardIcon />
             Add card
         </AddButton>
