@@ -1,11 +1,7 @@
 import { ColumnTitle } from '../model/columnTitle';
 import { ITask } from '../model/task';
 
-export const initLocalStorage = (columnTitle: ColumnTitle) => {
-    localStorage.getItem(columnTitle) ?? localStorage.setItem(columnTitle, '');
-};
-
-export const initLocalStorage2 = () => {
+export const initLocalStorage = () => {
     Object.values(ColumnTitle).forEach((it) => {
         localStorage.getItem(it) ?? localStorage.setItem(it, '');
     });

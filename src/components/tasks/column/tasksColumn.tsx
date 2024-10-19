@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { AddCardBtn, DropdownBtn, DropdownMenu, DropdownItem, SubmitBtn, Task, TasksList, TaskTitleInput, Title, Wrapper } from './tasksColumn.style';
-import { ReactComponent as AddCardIcon } from '../../../assets/board/add-card.svg';
-import { ReactComponent as ArrowDown } from '../../../assets/common/arrow-down-black.svg';
+import { FC, useEffect, useState } from 'react';
+import { Title, TasksListWrapper } from './tasksColumn.style';
 import { v4 as uuidv4 } from 'uuid';
 import { faker } from '@faker-js/faker';
-import { initLocalStorage, addTaskInLocalStorage, getMultipleTasksFromLocalStorage, getTaskFromLocalStorage, removeTaskFromLocalStorage } from '../../../util/localStorage';
+import { addTaskInLocalStorage } from '../../../util/localStorage';
 import { ITask } from '../../../model/task';
-import { ColumnTitle } from '../../../model/columnTitle';
+import TasksList from './list/tasksList';
+import { BaseProps } from '../props/baseProps';
+import SubmitBtn from './button/submitBtn';
+import AddCardBtn from './button/addCardBtn';
 
-interface Props {
-    columnTitle: ColumnTitle;
+interface Props extends BaseProps {
     tasks: ITask[];
 }
 
-const TasksColumn: React.FC<Props> = ({ columnTitle, tasks }) => {
-    initLocalStorage(columnTitle);
-
+const TasksColumn: FC<Props> = ({ columnTitle, tasks, updateTasks }) => {
     const [showInput, setShowInput] = useState<boolean>(false);
     const [taskTitle, setTaskTitle] = useState<string>('');
-    const [tasksToRender, setTasksToRender] = useState<ITask[]>(tasks);
-    const [dropdownItems, setDropdownItems] = useState<ITask[]>([]);
-    const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
     const handleAddCardBtnClick = () => setShowInput(true);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(e.target.value);
-    }
 
     const handleSubmitBtnClick = () => {
         if (taskTitle.trim() !== '') {
@@ -36,96 +27,26 @@ const TasksColumn: React.FC<Props> = ({ columnTitle, tasks }) => {
                 description: faker.lorem.sentences()
             };
             addTaskInLocalStorage(columnTitle, newTask);
-            setTasksToRender([...getMultipleTasksFromLocalStorage(columnTitle)]);
+            updateTasks(columnTitle);
             setTaskTitle('');
             setShowInput(false);
         }
     }
 
-    const handleDropwdonBtnClick = () => {
-        switch (columnTitle) {
-            case ColumnTitle.READY:
-                setDropdownItems(getMultipleTasksFromLocalStorage(ColumnTitle.BACKLOG));
-                break;
-            case ColumnTitle.IN_PROGRESS:
-                setDropdownItems(getMultipleTasksFromLocalStorage(ColumnTitle.READY));
-                break;
-            case ColumnTitle.FINISHED:
-                setDropdownItems(getMultipleTasksFromLocalStorage(ColumnTitle.IN_PROGRESS));
-                break;
-        }
-        setShowDropdown(true);
-    }
-    
-    const handleDropdownItemClick = (e: React.BaseSyntheticEvent) => {
-        let taskFromLS: ITask | undefined;
-
-        switch (columnTitle) {
-            case ColumnTitle.READY:
-                taskFromLS = getTaskFromLocalStorage(ColumnTitle.BACKLOG, e.target.id);
-                removeTaskFromLocalStorage(ColumnTitle.BACKLOG, taskFromLS.id);
-                break;
-            case ColumnTitle.IN_PROGRESS:
-                taskFromLS = getTaskFromLocalStorage(ColumnTitle.READY, e.target.id);
-                removeTaskFromLocalStorage(ColumnTitle.READY, taskFromLS.id);
-                break;
-            case ColumnTitle.FINISHED:
-                taskFromLS = getTaskFromLocalStorage(ColumnTitle.IN_PROGRESS, e.target.id);
-                removeTaskFromLocalStorage(ColumnTitle.IN_PROGRESS, taskFromLS.id);
-                break;
-            default:
-                taskFromLS = undefined;
-        }
-
-        const newTask: ITask = {
-            id: taskFromLS!.id,
-            name: taskFromLS!.name,
-            description: taskFromLS!.description
-        }
-        addTaskInLocalStorage(columnTitle, newTask);
-
-        setTasksToRender(getMultipleTasksFromLocalStorage(columnTitle));
-        setDropdownItems(dropdownItems.filter((it) => it.id !== taskFromLS!.id));
-    }
-
     useEffect(() => {
-        setTasksToRender(getMultipleTasksFromLocalStorage(columnTitle));
-    }, [columnTitle]);
+        updateTasks(columnTitle);
+    }, [columnTitle, updateTasks]);
 
     return (
-        <Wrapper>
+        <TasksListWrapper>
             <Title>{columnTitle}</Title>
-            <TasksList>
-                {tasksToRender.map((it) => <Task key={it.id}>{it.name}</Task>)}
-                {showInput && <TaskTitleInput value={taskTitle} onChange={handleInputChange} placeholder='Enter task title'/>}
-            </TasksList>
-            {columnTitle !== 'Backlog' && (
-                <DropdownBtn onClick={handleDropwdonBtnClick}>
-                    <ArrowDown />
-                </DropdownBtn>
-            )}
-            {showDropdown && (
-                <DropdownMenu>
-                    {dropdownItems.map((it) => {
-                        return (
-                            <DropdownItem id={it.id} key={it.id} onClick={handleDropdownItemClick}>
-                                {it.name}
-                            </DropdownItem>
-                        );
-                    })}
-                </DropdownMenu>
-            )}
+            <TasksList tasks={tasks} columnTitle={columnTitle} showInput={showInput} updateTasks={updateTasks}/>
             {taskTitle.length > 0 ? (
-                <SubmitBtn onClick={handleSubmitBtnClick}>
-                    Submit
-                </SubmitBtn>
+                <SubmitBtn />
             ) : (
-                <AddCardBtn onClick={handleAddCardBtnClick}>
-                    <AddCardIcon />
-                    Add card
-                </AddCardBtn>
+                <AddCardBtn />
             )}
-        </Wrapper>
+        </TasksListWrapper>
     );
 }
 
