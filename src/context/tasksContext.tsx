@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useCallback, FC } from 'react';
-import { ITask } from './model/task';
-import { ColumnTitle } from './model/columnTitle';
-import { getMultipleTasksFromLocalStorage } from './util/localStorage';
+import { ITask } from '../model/task';
+import { ColumnTitle } from '../model/columnTitle';
+import { getMultipleTasksFromLocalStorage, initLocalStorage } from '../util/localStorage';
 
 interface TasksContextType {
     backlogTasks: ITask[];
@@ -12,7 +12,7 @@ interface TasksContextType {
     setInProgressTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
     finishedTasks: ITask[];
     setFinishedTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
-    updateTasks: () => void;
+    updateTasks: (columnTitle: ColumnTitle) => void;
 }
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined);
@@ -26,6 +26,8 @@ export const useTasks = (): TasksContextType => {
 };
 
 export const TasksProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+    initLocalStorage();
+
     const [backlogTasks, setBacklogTasks] = useState<ITask[]>(
         getMultipleTasksFromLocalStorage(ColumnTitle.BACKLOG)
     );

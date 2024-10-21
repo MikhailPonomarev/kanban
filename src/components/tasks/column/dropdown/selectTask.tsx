@@ -10,12 +10,15 @@ import {
     removeTaskFromLocalStorage 
 } from '../../../../util/localStorage';
 import { TasksProps } from '../../tasksProps';
+import { useTasks } from '../../../../context/tasksContext';
 
 interface Props extends TasksProps {
     setShowSelectTasks: (value: SetStateAction<boolean>) => void;
 }
 
-const SelectTask: FC<Props> = ({ columnTitle, updateTasks, setShowSelectTasks }) => {
+const SelectTask: FC<Props> = ({ columnTitle, setShowSelectTasks }) => {
+    const { updateTasks } = useTasks();
+
     const [dropdownItems, setDropdownItems] = useState<ITask[]>([]);
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
 

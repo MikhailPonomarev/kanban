@@ -37,7 +37,6 @@ const TasksList: FC<Props> = (props: Props) => {
             {props.showSelectTask && (
                 <SelectTask 
                     columnTitle={props.columnTitle} 
-                    updateTasks={props.updateTasks} 
                     setShowSelectTasks={props.setShowSelectTask} 
                 />
             )}

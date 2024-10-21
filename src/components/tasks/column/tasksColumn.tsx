@@ -9,12 +9,15 @@ import { TasksProps } from '../tasksProps';
 import SubmitBtn from './button/submitBtn';
 import AddCardBtn from './button/addCardBtn';
 import { ColumnTitle } from '../../../model/columnTitle';
+import { useTasks } from '../../../context/tasksContext';
 
 interface Props extends TasksProps {
     tasks: ITask[];
 }
 
-const TasksColumn: FC<Props> = ({ columnTitle, tasks, updateTasks }) => {
+const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
+    const { updateTasks } = useTasks();
+
     const [showInput, setShowInput] = useState<boolean>(false);
     const [showSelectTask, setShowSelectTask] = useState<boolean>(false);
     const [taskTitle, setTaskTitle] = useState<string>('');
@@ -55,7 +58,6 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks, updateTasks }) => {
                 tasks={tasks} 
                 columnTitle={columnTitle}
                 showInput={showInput} 
-                updateTasks={updateTasks}
                 setShowSubmitBtn={setShowSubmitBtn}
                 setTaskTitle={setTaskTitle}
                 showSelectTask={showSelectTask}
