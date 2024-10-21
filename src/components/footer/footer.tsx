@@ -1,21 +1,14 @@
-import { useState } from "react";
-import { ColumnTitle } from "../../model/columnTitle";
-import { getTasksByColumnTitle } from "../../util/localStorage";
-import { FooterText, StyledFooter, TasksCounter } from "./footer.style";
+import { FooterText, StyledFooter, TasksCounter } from './footer.style';
+import { useTasks } from '../../context/tasksContext';
 
 const Footer = () => {
-    // const [activeCount, setActiveCount] = useState<number>(
-    //     getTasksByColumnTitle(ColumnTitle.BACKLOG).length
-    // );
-    // const [finishedCount, setFinishedCount] = useState<number>(
-    //     getTasksByColumnTitle(ColumnTitle.FINISHED).length
-    // );
+    const { backlogTasks, finishedTasks } = useTasks();
 
     return (
         <StyledFooter>
             <TasksCounter>
-                <FooterText>Active tasks: {1}</FooterText>
-                <FooterText>Finished tasks: {1}</FooterText>
+                <FooterText>Active tasks: {backlogTasks.length}</FooterText>
+                <FooterText>Finished tasks: {finishedTasks.length}</FooterText>
             </TasksCounter>
             <FooterText>Kanban board by Elizaveta Ponomareva, 2024</FooterText>
         </StyledFooter>
