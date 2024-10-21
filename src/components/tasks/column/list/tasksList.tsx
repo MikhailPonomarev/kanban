@@ -3,7 +3,6 @@ import { ITask } from '../../../../model/task';
 import { List, Task, NewTaskInput } from './tasksList.style';
 import SelectTask from '../dropdown/selectTask';
 import { TasksProps } from '../../tasksProps';
-import { ColumnTitle } from '../../../../model/columnTitle';
 import { useTask } from '../../../../context/taskContext';
 
 interface Props extends TasksProps {
@@ -28,19 +27,10 @@ const TasksList: FC<Props> = ({ columnTitle, tasks }) => {
         <>
             <List>
                 {tasks.map((it) => <Task key={it.id}>{it.name}</Task>)}
-                {(showInput && columnTitle === ColumnTitle.BACKLOG) && (
-                    <NewTaskInput 
-                        value={newTaskTitle} 
-                        onChange={handleInputChange} 
-                        placeholder='Enter task title'
-                    />
-                )}
+                {showInput && (
+                    <NewTaskInput value={newTaskTitle} onChange={handleInputChange} placeholder='Enter task title'/>)}
             </List>
-            {showSelectTask && (
-                <SelectTask 
-                    columnTitle={columnTitle} 
-                />
-            )}
+            {showSelectTask && (<SelectTask columnTitle={columnTitle} />)}
         </>
     );
 }

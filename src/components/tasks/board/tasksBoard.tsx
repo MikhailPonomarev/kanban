@@ -8,14 +8,20 @@ const TasksBoard = () => {
     const { backlogTasks, readyTasks, inProgressTasks, finishedTasks } = useGlobal();
 
     return (
-        <TaskProvider>
-            <StyledTasksBoard>
+        <StyledTasksBoard>
+            <TaskProvider>
                 <TasksColumn columnTitle={ColumnTitle.BACKLOG} tasks={backlogTasks} />
+            </TaskProvider>
+            <TaskProvider>
                 <TasksColumn columnTitle={ColumnTitle.READY} tasks={readyTasks} />
+            </TaskProvider>
+            <TaskProvider>
                 <TasksColumn columnTitle={ColumnTitle.IN_PROGRESS} tasks={inProgressTasks} />
+            </TaskProvider>
+            <TaskProvider>
                 <TasksColumn columnTitle={ColumnTitle.FINISHED} tasks={finishedTasks} />
-            </StyledTasksBoard>
-        </TaskProvider>
+            </TaskProvider>
+        </StyledTasksBoard>
     );
 }
 

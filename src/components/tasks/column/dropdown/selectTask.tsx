@@ -37,33 +37,33 @@ const SelectTask: FC<TasksProps> = ({ columnTitle }) => {
     }
 
     const handleDropdownItemClick = (e: React.BaseSyntheticEvent) => {
-        let taskFromLS: ITask | undefined;
+        let taskFromLocalStorage: ITask | undefined;
 
         switch (columnTitle) {
             case ColumnTitle.READY:
-                taskFromLS = getTaskFromLocalStorage(ColumnTitle.BACKLOG, e.target.id);
-                removeTaskFromLocalStorage(ColumnTitle.BACKLOG, taskFromLS.id);
+                taskFromLocalStorage = getTaskFromLocalStorage(ColumnTitle.BACKLOG, e.target.id);
+                removeTaskFromLocalStorage(ColumnTitle.BACKLOG, taskFromLocalStorage.id);
                 break;
             case ColumnTitle.IN_PROGRESS:
-                taskFromLS = getTaskFromLocalStorage(ColumnTitle.READY, e.target.id);
-                removeTaskFromLocalStorage(ColumnTitle.READY, taskFromLS.id);
+                taskFromLocalStorage = getTaskFromLocalStorage(ColumnTitle.READY, e.target.id);
+                removeTaskFromLocalStorage(ColumnTitle.READY, taskFromLocalStorage.id);
                 break;
             case ColumnTitle.FINISHED:
-                taskFromLS = getTaskFromLocalStorage(ColumnTitle.IN_PROGRESS, e.target.id);
-                removeTaskFromLocalStorage(ColumnTitle.IN_PROGRESS, taskFromLS.id);
+                taskFromLocalStorage = getTaskFromLocalStorage(ColumnTitle.IN_PROGRESS, e.target.id);
+                removeTaskFromLocalStorage(ColumnTitle.IN_PROGRESS, taskFromLocalStorage.id);
                 break;
             default:
-                taskFromLS = undefined;
+                taskFromLocalStorage = undefined;
         }
 
         const newTask: ITask = {
-            id: taskFromLS!.id,
-            name: taskFromLS!.name,
-            description: taskFromLS!.description
+            id: taskFromLocalStorage!.id,
+            name: taskFromLocalStorage!.name,
+            description: taskFromLocalStorage!.description
         }
         addTaskInLocalStorage(columnTitle, newTask);
         updateTasks();
-        setDropdownItems(dropdownItems.filter((it) => it.id !== taskFromLS!.id));
+        setDropdownItems(dropdownItems.filter((it) => it.id !== taskFromLocalStorage!.id));
         setShowSelectTask(false);
     }
 
