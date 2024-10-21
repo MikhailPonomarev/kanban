@@ -20,7 +20,7 @@ export const addTaskInLocalStorage = (columnTitle: ColumnTitle, newTask: ITask) 
     localStorage.setItem(columnTitle, updValue.toString());
 };
 
-const getTasksByColumnTitle = (columnTitle: ColumnTitle): ITask[] => {
+export const getTasksByColumnTitle = (columnTitle: ColumnTitle): ITask[] => {
     return JSON.parse(localStorage.getItem(columnTitle)!) as ITask[];
 };
 

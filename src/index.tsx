@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './style/global.style';
+import { TasksProvider } from './context';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <GlobalStyle />
-        <App />
+        <TasksProvider>
+            <App />
+        </TasksProvider>
     </React.StrictMode>
 );
 
