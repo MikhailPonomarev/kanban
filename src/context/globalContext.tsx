@@ -1,31 +1,29 @@
-import React, { createContext, useState, useContext, useCallback, FC } from 'react';
+import { createContext, useState, useContext, useCallback, FC, ReactNode } from 'react';
 import { ITask } from '../model/task';
 import { ColumnTitle } from '../model/columnTitle';
 import { getMultipleTasksFromLocalStorage, initLocalStorage } from '../util/localStorage';
 
-interface TasksContextType {
+interface GlobalContextType {
     backlogTasks: ITask[];
-    setBacklogTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
     readyTasks: ITask[];
-    setReadyTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
     inProgressTasks: ITask[];
-    setInProgressTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
     finishedTasks: ITask[];
-    setFinishedTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
-    updateTasks: (columnTitle: ColumnTitle) => void;
+    updateTasks: () => void;
 }
 
-const TasksContext = createContext<TasksContextType | undefined>(undefined);
+const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
-export const useTasks = (): TasksContextType => {
-    const context = useContext(TasksContext);
+export const useGlobal = (): GlobalContextType => {
+    const context = useContext(GlobalContext);
+
     if (!context) {
-        throw new Error("useTasks must be used within a TasksProvider");
+        throw new Error('useGlobal must be used within a GlobalProvider');
     }
+
     return context;
 };
 
-export const TasksProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+export const GlobalProvider: FC<{ children: ReactNode }> = ({ children }) => {
     initLocalStorage();
 
     const [backlogTasks, setBacklogTasks] = useState<ITask[]>(
@@ -49,20 +47,16 @@ export const TasksProvider: FC<{ children: React.ReactNode }> = ({ children }) =
     }, []);
 
     return (
-        <TasksContext.Provider
+        <GlobalContext.Provider
             value={{
                 backlogTasks,
-                setBacklogTasks,
                 readyTasks,
-                setReadyTasks,
                 inProgressTasks,
-                setInProgressTasks,
                 finishedTasks,
-                setFinishedTasks,
                 updateTasks,
             }}
         >
             {children}
-        </TasksContext.Provider>
+        </GlobalContext.Provider>
     );
 };

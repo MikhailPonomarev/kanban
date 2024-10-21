@@ -1,43 +1,44 @@
-import { FC, SetStateAction, useState } from 'react';
+import { FC } from 'react';
 import { ITask } from '../../../../model/task';
 import { List, Task, NewTaskInput } from './tasksList.style';
 import SelectTask from '../dropdown/selectTask';
 import { TasksProps } from '../../tasksProps';
+import { ColumnTitle } from '../../../../model/columnTitle';
+import { useTask } from '../../../../context/taskContext';
 
 interface Props extends TasksProps {
     tasks: ITask[];
-    showInput: boolean;
-    setShowSubmitBtn: (value: SetStateAction<boolean>) => void;
-    setTaskTitle: (value: SetStateAction<string>) => void;
-    showSelectTask: boolean;
-    setShowSelectTask: (value: SetStateAction<boolean>) => void;
 }
 
-const TasksList: FC<Props> = (props: Props) => {
-    const [inputValue, setInputValue] = useState<string>('');
+const TasksList: FC<Props> = ({ columnTitle, tasks }) => {
+    const { 
+        showInput, 
+        showSelectTask,
+        newTaskTitle, 
+        setNewTaskTitle, 
+        setShowSubmitBtn 
+    } = useTask();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-        props.setTaskTitle(e.target.value);
-        props.setShowSubmitBtn(true);
+        setNewTaskTitle(e.target.value);
+        setShowSubmitBtn(true);
     }
 
     return (
         <>
             <List>
-                {props.tasks.map((it) => <Task key={it.id}>{it.name}</Task>)}
-                {props.showInput && (
+                {tasks.map((it) => <Task key={it.id}>{it.name}</Task>)}
+                {(showInput && columnTitle === ColumnTitle.BACKLOG) && (
                     <NewTaskInput 
-                        value={inputValue} 
+                        value={newTaskTitle} 
                         onChange={handleInputChange} 
                         placeholder='Enter task title'
                     />
                 )}
             </List>
-            {props.showSelectTask && (
+            {showSelectTask && (
                 <SelectTask 
-                    columnTitle={props.columnTitle} 
-                    setShowSelectTasks={props.setShowSelectTask} 
+                    columnTitle={columnTitle} 
                 />
             )}
         </>

@@ -1,8 +1,8 @@
 import { FooterText, StyledFooter, TasksCounter } from './footer.style';
-import { useTasks } from '../../context/tasksContext';
+import { useGlobal } from '../../context/globalContext';
 
 const Footer = () => {
-    const { backlogTasks, finishedTasks } = useTasks();
+    const { backlogTasks, finishedTasks } = useGlobal();
 
     return (
         <StyledFooter>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Title, TasksListWrapper } from './tasksColumn.style';
 import { v4 as uuidv4 } from 'uuid';
 import { faker } from '@faker-js/faker';
@@ -9,59 +9,54 @@ import { TasksProps } from '../tasksProps';
 import SubmitBtn from './button/submitBtn';
 import AddCardBtn from './button/addCardBtn';
 import { ColumnTitle } from '../../../model/columnTitle';
-import { useTasks } from '../../../context/tasksContext';
+import { useGlobal } from '../../../context/globalContext';
+import { useTask } from '../../../context/taskContext';
 
 interface Props extends TasksProps {
     tasks: ITask[];
 }
 
 const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
-    const { updateTasks } = useTasks();
-
-    const [showInput, setShowInput] = useState<boolean>(false);
-    const [showSelectTask, setShowSelectTask] = useState<boolean>(false);
-    const [taskTitle, setTaskTitle] = useState<string>('');
-    const [showSubmitBtn, setShowSubmitBtn] = useState<boolean>(false);
+    const { updateTasks } = useGlobal();
+    const {
+        setShowInput, 
+        setShowSelectTask,
+        newTaskTitle,
+        setNewTaskTitle,
+        showSubmitBtn,
+        setShowSubmitBtn
+    } = useTask();
 
     const handleAddCardBtnClick = () => {
-        if (columnTitle === ColumnTitle.BACKLOG) {
-            setTaskTitle('');
-            setShowInput(true);
-        } else {
+        if (columnTitle !== ColumnTitle.BACKLOG) {
             setShowSelectTask(true);
+        } else {
+            setShowInput(true);
+            setNewTaskTitle('');
         }
     }
 
     const handleSubmitBtnClick = () => {
-        if (taskTitle.trim() !== '') {
+        if (newTaskTitle.trim() !== '') {
             const newTask: ITask = { 
                 id: uuidv4().substring(0, 8), 
-                name: taskTitle, 
+                name: newTaskTitle, 
                 description: faker.lorem.sentences()
             };
             addTaskInLocalStorage(columnTitle, newTask);
-            updateTasks(columnTitle);
-            setTaskTitle('');
+            updateTasks();
+            setNewTaskTitle('');
             setShowInput(false);
             setShowSubmitBtn(false);
         }
     }
 
-    useEffect(() => {
-        updateTasks(columnTitle);
-    }, [columnTitle, updateTasks]);
-
     return (
         <TasksListWrapper>
-            <Title >{columnTitle}</Title>
+            <Title>{columnTitle}</Title>
             <TasksList 
                 tasks={tasks} 
                 columnTitle={columnTitle}
-                showInput={showInput} 
-                setShowSubmitBtn={setShowSubmitBtn}
-                setTaskTitle={setTaskTitle}
-                showSelectTask={showSelectTask}
-                setShowSelectTask={setShowSelectTask}
             />
             {showSubmitBtn ? (
                 <SubmitBtn handleClick={handleSubmitBtnClick}/>
