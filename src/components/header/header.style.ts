@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../style/variables.style';
+import { colors, transitions } from '../../style/variables.style';
 
 export const StyledHeader = styled.header`
     display: flex;
@@ -16,9 +16,22 @@ export const Title = styled.span`
 `;
 
 export const User = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     width: 65px;
     height: 40px;
     cursor: pointer;
+`;
+
+export const UserDropdownOption = styled.li`
+    padding: 10px;
+    cursor: pointer;
+    transition: ${transitions.backgroundColor};
+
+    &:hover {
+        background-color: ${colors.darkGrey};
+        color: ${colors.white};
+        border-radius: 5px;
+    }
 `;
