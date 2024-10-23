@@ -25,7 +25,7 @@ export const User = styled.div`
 `;
 
 export const UserDropdownOption = styled.li`
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
     transition: ${transitions.backgroundColor};
 

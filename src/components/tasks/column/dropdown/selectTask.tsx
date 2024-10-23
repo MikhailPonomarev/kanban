@@ -1,10 +1,11 @@
 import { FC, useState } from 'react';
 import { ReactComponent as ArrowDown } from '../../../../assets/common/arrow-down-black.svg';
+import { ReactComponent as ArrowUp } from '../../../../assets/common/arrow-up-black.svg';
 import { ColumnTitle } from '../../../../model/columnTitle';
-import { DropdownBtn, DropdownMenu, DropdownItem } from './selectTask.style';
+import { SelectBtn, SelectDropdownItem } from './selectTask.style';
 import { ITask } from '../../../../model/task';
 import { 
-    addTaskInLocalStorage, 
+    addTaskInLocalStorage,
     getMultipleTasksFromLocalStorage, 
     getTaskFromLocalStorage, 
     removeTaskFromLocalStorage 
@@ -12,6 +13,7 @@ import {
 import { TasksProps } from '../../tasksProps';
 import { useGlobal } from '../../../../context/globalContext';
 import { useTask } from '../../../../context/taskContext';
+import Dropdown from '../../../common/dropdown';
 
 const SelectTask: FC<TasksProps> = ({ columnTitle }) => {
     const { updateTasks } = useGlobal();
@@ -33,7 +35,7 @@ const SelectTask: FC<TasksProps> = ({ columnTitle }) => {
                 break;
         }
 
-        setShowDropdown(true);
+        showDropdown ? setShowDropdown(false) : setShowDropdown(true)
     }
 
     const handleDropdownItemClick = (e: React.BaseSyntheticEvent) => {
@@ -70,21 +72,23 @@ const SelectTask: FC<TasksProps> = ({ columnTitle }) => {
     return (
         <>
             {columnTitle !== ColumnTitle.BACKLOG && (
-                <DropdownBtn onClick={handleDropwdonBtnClick}>
-                    <ArrowDown />
-                </DropdownBtn>
+                <SelectBtn onClick={handleDropwdonBtnClick}>
+                    {showDropdown ? <ArrowUp /> : <ArrowDown />}
+                    {showDropdown &&
+                        (<Dropdown 
+                            children={
+                                dropdownItems.map((it) => {
+                                    return (
+                                        <SelectDropdownItem id={it.id} key={it.id} onClick={handleDropdownItemClick}>
+                                            {it.name}
+                                        </SelectDropdownItem>
+                                    );
+                                })
+                            } 
+                        />)
+                    }
+                </SelectBtn>
             )}
-            {showDropdown && (
-                <DropdownMenu>
-                    {dropdownItems.map((it) => {
-                        return (
-                            <DropdownItem id={it.id} key={it.id} onClick={handleDropdownItemClick}>
-                                {it.name}
-                            </DropdownItem>
-                    );
-                })}
-            </DropdownMenu>
-        )}
         </>
     );
 }

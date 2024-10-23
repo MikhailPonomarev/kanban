@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { colors, transitions } from "../../../../style/variables.style";
 
-export const DropdownBtn = styled.button`
+export const SelectBtn = styled.button`
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -14,21 +15,16 @@ export const DropdownBtn = styled.button`
     cursor: pointer;
 `;
 
-export const DropdownMenu = styled.ul`
-    list-style: none;
-    margin-top: 3px;
-    padding: 0px;
-    background-color: ${colors.white};
-    border-radius: 5px;
-`;
-
-export const DropdownItem = styled.li`
+export const SelectDropdownItem = styled.li`
     padding: 8px;
     font-size: 18px;
+    text-align: start;
     transition: ${transitions.backgroundColor};
     cursor: pointer;
 
     &:hover {
-        background-color: ${colors.lightGrey};
+        color: ${colors.white};
+        background-color: ${colors.darkGrey};
+        border-radius: 5px;
     }
 `;
