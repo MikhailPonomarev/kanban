@@ -26,7 +26,10 @@ export const getTasksByColumnTitle = (columnTitle: ColumnTitle): ITask[] => {
 
 export const removeTaskFromLocalStorage = (columnTitle: ColumnTitle, taskId: string) => {
     const tasksByColumnTitle = getTasksByColumnTitle(columnTitle);
-    localStorage.setItem(columnTitle, JSON.stringify(tasksByColumnTitle.filter((it) => it.id !== taskId)));
+    localStorage.setItem(
+        columnTitle,
+        JSON.stringify(tasksByColumnTitle.filter((it) => it.id !== taskId)),
+    );
 };
 
 export const getTaskFromLocalStorage = (columnTitle: ColumnTitle, taskId: string): ITask => {
@@ -38,6 +41,37 @@ export const getTaskFromLocalStorage = (columnTitle: ColumnTitle, taskId: string
     }
 
     return maybeTask;
+};
+
+export const getTaskFromLocalStorageById = (id: string): ITask | undefined => {
+    const allTasks = [
+        ...getMultipleTasksFromLocalStorage(ColumnTitle.BACKLOG),
+        ...getMultipleTasksFromLocalStorage(ColumnTitle.READY),
+        ...getMultipleTasksFromLocalStorage(ColumnTitle.IN_PROGRESS),
+        ...getMultipleTasksFromLocalStorage(ColumnTitle.FINISHED),
+    ];
+
+    return allTasks.find((task) => task.id === id) || undefined;
+};
+
+export const getColumnTitleContainingTask = (task: ITask): ColumnTitle => {
+    const backlogTasks = getMultipleTasksFromLocalStorage(ColumnTitle.BACKLOG);
+    const readyTasks = getMultipleTasksFromLocalStorage(ColumnTitle.READY);
+    const inProgressTasks = getMultipleTasksFromLocalStorage(ColumnTitle.IN_PROGRESS);
+
+    if (backlogTasks.filter((it) => it.id !== task.id).length === 1) {
+        return ColumnTitle.BACKLOG;
+    }
+
+    if (readyTasks.filter((it) => it.id !== task.id).length === 1) {
+        return ColumnTitle.READY;
+    }
+
+    if (inProgressTasks.filter((it) => it.id !== task.id).length === 1) {
+        return ColumnTitle.IN_PROGRESS;
+    }
+
+    return ColumnTitle.FINISHED;
 };
 
 export const getMultipleTasksFromLocalStorage = (columnTitle: ColumnTitle): ITask[] => {

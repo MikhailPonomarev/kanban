@@ -1,5 +1,5 @@
 import TasksColumn from '../column/tasksColumn';
-import { StyledTasksBoard } from './tasksBoard.style';
+import { Board } from './tasksBoard.style';
 import { ColumnTitle } from '../../../model/columnTitle';
 import { useGlobal } from '../../../context/globalContext';
 import { TaskProvider } from '../../../context/taskContext';
@@ -8,7 +8,7 @@ const TasksBoard = () => {
     const { backlogTasks, readyTasks, inProgressTasks, finishedTasks } = useGlobal();
 
     return (
-        <StyledTasksBoard>
+        <Board>
             <TaskProvider>
                 <TasksColumn columnTitle={ColumnTitle.BACKLOG} tasks={backlogTasks} />
             </TaskProvider>
@@ -21,7 +21,7 @@ const TasksBoard = () => {
             <TaskProvider>
                 <TasksColumn columnTitle={ColumnTitle.FINISHED} tasks={finishedTasks} />
             </TaskProvider>
-        </StyledTasksBoard>
+        </Board>
     );
 }
 

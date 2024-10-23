@@ -5,6 +5,7 @@ export const colors = {
     black: '#000000',
     lightGrey: '#EBECF0',
     darkGrey: '#5E6C84',
+    green: '#3CB371',
 };
 
 export const transitions = {
