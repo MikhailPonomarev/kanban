@@ -3,9 +3,9 @@ import { ReactComponent as AddCardIcon } from '../../../../assets/board/add-card
 import { AddButton } from './addCardBtn.style';
 import { ButtonProps } from './buttonProps';
 
-const AddCardBtn: FC<ButtonProps> = ({ handleClick }) => {
+const AddCardBtn: FC<ButtonProps> = ({ handleClick, disabled }) => {
     return (
-        <AddButton onClick={handleClick}>
+        <AddButton onClick={!disabled ? handleClick : undefined} disabled={disabled}>
             <AddCardIcon />
             Add card
         </AddButton>

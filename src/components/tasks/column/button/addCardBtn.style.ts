@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors, transitions } from '../../../../style/variables.style';
 
-export const AddButton = styled.button`
+export const AddButton = styled.button<{ disabled?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,11 +13,11 @@ export const AddButton = styled.button`
     background-color: ${colors.lightGrey};
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
     transition: ${transitions.backgroundColor};
 
     &:hover {
-        background-color: ${colors.white};
+        background-color: ${({ disabled }) => (disabled ? colors.lightGrey : colors.white)};
     }
 
     svg {

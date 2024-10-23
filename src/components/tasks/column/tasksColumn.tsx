@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Title, TasksListWrapper } from './tasksColumn.style';
 import { v4 as uuidv4 } from 'uuid';
 import { addTaskInLocalStorage } from '../../../util/localStorage';
@@ -18,7 +18,7 @@ interface Props extends TasksProps {
 }
 
 const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
-    const { updateTasks } = useGlobal();
+    const { updateTasks, backlogTasks, readyTasks, inProgressTasks } = useGlobal();
     const {
         setShowInput, 
         setShowSelectTask,
@@ -27,6 +27,8 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
         showSubmitBtn,
         setShowSubmitBtn
     } = useTask();
+
+    const [addCardBtnDisabled, setAddCardBtnDisabled] = useState<boolean>(false);
 
     const handleAddCardBtnClick = () => {
         if (columnTitle !== ColumnTitle.BACKLOG) {
@@ -52,6 +54,26 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
         }
     }
 
+    useEffect(() => {
+        switch(columnTitle) {
+            case ColumnTitle.BACKLOG:
+                setAddCardBtnDisabled(false);
+                break;
+            case ColumnTitle.READY:
+                backlogTasks.length === 0 && setAddCardBtnDisabled(true);
+                break;
+            case ColumnTitle.IN_PROGRESS:
+                readyTasks.length === 0 && setAddCardBtnDisabled(true);
+                break;
+            case ColumnTitle.FINISHED:
+                inProgressTasks.length === 0 && setAddCardBtnDisabled(true);
+                break;
+            default:
+                setAddCardBtnDisabled(false);
+                break;
+        }
+    }, [columnTitle, backlogTasks.length, inProgressTasks.length, readyTasks.length]);
+
     return (
         <>
             <TasksListWrapper>
@@ -61,7 +83,7 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
                     columnTitle={columnTitle}
                 />
                 {showSubmitBtn ? 
-                    (<SubmitBtn handleClick={handleSubmitBtnClick}/>) : (<AddCardBtn handleClick={handleAddCardBtnClick} />)}
+                    (<SubmitBtn handleClick={handleSubmitBtnClick}/>) : (<AddCardBtn handleClick={handleAddCardBtnClick} disabled={addCardBtnDisabled} />)}
             </TasksListWrapper>
             <Routes>
                 <Route path='/tasks/:taskId' element={<TaskModal />} />
