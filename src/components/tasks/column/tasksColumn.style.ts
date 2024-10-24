@@ -6,9 +6,11 @@ export const TasksListWrapper = styled.div`
     flex-direction: column;
     width: 270px;
     height: fit-content;
+    max-height: 570px;
     padding: 12px;
     background-color: ${colors.lightGrey};
     border-radius: 10px;
+    overflow-y: scroll;
 `;
 
 export const Title = styled.span`
