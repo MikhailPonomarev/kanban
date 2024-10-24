@@ -8,6 +8,12 @@ export const Overlay = styled.div`
     height: 600px;
     background-color: ${colors.white};
     border-radius: 5px;
+
+    @media (max-width: 375px) {
+        top: 0;
+        width: 375px;
+        height: 100%;
+    }
 `;
 
 export const ContentWrapper = styled.div`
@@ -22,11 +28,6 @@ export const Title = styled.span`
     font-size: 24px;
 `;
 
-export const DescriptionText = styled.span`
-    width: 620px;
-    font-size: 18px;
-`;
-
 export const DesciptionTextArea = styled.textarea`
     width: 620px;
     padding: 5px;
@@ -34,6 +35,10 @@ export const DesciptionTextArea = styled.textarea`
     font-size: 18px;
     resize: none;
     border-radius: 5px;
+
+    @media (max-width: 375px) {
+        width: 300px;
+    }
 `;
 
 export const SaveBtnContainer = styled.div`
