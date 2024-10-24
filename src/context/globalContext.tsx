@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useCallback, FC, ReactNode } from 'react';
+import { createContext, useState, useContext, useCallback, FC, ReactNode, useEffect } from 'react';
 import { ITask } from '../model/task';
 import { ColumnTitle } from '../model/columnTitle';
 import { getMultipleTasksFromLocalStorage, initLocalStorage } from '../util/localStorage';
@@ -45,6 +45,10 @@ export const GlobalProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setInProgressTasks(getMultipleTasksFromLocalStorage(ColumnTitle.IN_PROGRESS));
         setFinishedTasks(getMultipleTasksFromLocalStorage(ColumnTitle.FINISHED));
     }, []);
+
+    useEffect(() => {
+        updateTasks();
+    }, [updateTasks]);
 
     return (
         <GlobalContext.Provider

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ITask } from '../../../../model/task';
 import { List, Task, NewTaskInput } from './tasksList.style';
-import SelectTask from '../dropdown/selectTask';
+import SelectTask from '../select/selectTask';
 import { TasksProps } from '../../tasksProps';
 import { useTask } from '../../../../context/taskContext';
 import { useNavigate } from 'react-router-dom';

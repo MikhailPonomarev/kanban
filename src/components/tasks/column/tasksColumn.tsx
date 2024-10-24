@@ -60,19 +60,19 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
                 setAddCardBtnDisabled(false);
                 break;
             case ColumnTitle.READY:
-                backlogTasks.length === 0 && setAddCardBtnDisabled(true);
+                setAddCardBtnDisabled(backlogTasks.length === 0);
                 break;
             case ColumnTitle.IN_PROGRESS:
-                readyTasks.length === 0 && setAddCardBtnDisabled(true);
+                setAddCardBtnDisabled(readyTasks.length === 0);
                 break;
             case ColumnTitle.FINISHED:
-                inProgressTasks.length === 0 && setAddCardBtnDisabled(true);
+                setAddCardBtnDisabled(inProgressTasks.length === 0);
                 break;
             default:
                 setAddCardBtnDisabled(false);
                 break;
         }
-    }, [columnTitle, backlogTasks.length, inProgressTasks.length, readyTasks.length]);
+    }, [columnTitle, backlogTasks, inProgressTasks, readyTasks]);
 
     return (
         <>
@@ -83,7 +83,9 @@ const TasksColumn: FC<Props> = ({ columnTitle, tasks }) => {
                     columnTitle={columnTitle}
                 />
                 {showSubmitBtn ? 
-                    (<SubmitBtn handleClick={handleSubmitBtnClick}/>) : (<AddCardBtn handleClick={handleAddCardBtnClick} disabled={addCardBtnDisabled} />)}
+                    (<SubmitBtn handleClick={handleSubmitBtnClick}/>) 
+                        : 
+                    (<AddCardBtn handleClick={handleAddCardBtnClick} disabled={addCardBtnDisabled} />)}
             </TasksListWrapper>
             <Routes>
                 <Route path='/tasks/:taskId' element={<TaskModal />} />
