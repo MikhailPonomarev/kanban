@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ITask } from '../../../model/task';
-import { addTaskInLocalStorage, getColumnTitleContainingTask, getTaskFromLocalStorageById, removeTaskFromLocalStorage } from '../../../util/localStorage';
+import { addTaskInLocalStorage, getColumnTitleByTaskId, getTaskFromLocalStorageById, removeTaskFromLocalStorage } from '../../../util/localStorage';
 import { CloseBtn, ContentWrapper, DesciptionTextArea, Overlay, SaveBtn, SaveBtnContainer, SavedText, Title } from './taskModal.style';
 import { ReactComponent as Cross } from '../../../assets/modal/cross.svg';
 import { useState } from 'react';
@@ -28,7 +28,7 @@ const TaskModal = () =>  {
     }
 
     const handleSaveBtnClick = () => {
-        const columnTitle = getColumnTitleContainingTask(task);
+        const columnTitle = getColumnTitleByTaskId(taskId!);
 
         removeTaskFromLocalStorage(columnTitle, task?.id!);
         

@@ -54,21 +54,19 @@ export const getTaskFromLocalStorageById = (id: string): ITask | undefined => {
     return allTasks.find((task) => task.id === id) || undefined;
 };
 
-export const getColumnTitleContainingTask = (task: ITask): ColumnTitle => {
-    const backlogTasks = getMultipleTasksFromLocalStorage(ColumnTitle.BACKLOG);
-    const readyTasks = getMultipleTasksFromLocalStorage(ColumnTitle.READY);
-    const inProgressTasks = getMultipleTasksFromLocalStorage(ColumnTitle.IN_PROGRESS);
+export const getColumnTitleByTaskId = (taskId: string): ColumnTitle => {
+    const columns: ColumnTitle[] = [
+        ColumnTitle.BACKLOG,
+        ColumnTitle.READY,
+        ColumnTitle.IN_PROGRESS,
+    ];
 
-    if (backlogTasks.filter((it) => it.id !== task.id).length === 1) {
-        return ColumnTitle.BACKLOG;
-    }
-
-    if (readyTasks.filter((it) => it.id !== task.id).length === 1) {
-        return ColumnTitle.READY;
-    }
-
-    if (inProgressTasks.filter((it) => it.id !== task.id).length === 1) {
-        return ColumnTitle.IN_PROGRESS;
+    for (const columnTitle of columns) {
+        const tasks = getMultipleTasksFromLocalStorage(columnTitle);
+        const task = tasks.find((task) => task.id === taskId);
+        if (task) {
+            return columnTitle;
+        }
     }
 
     return ColumnTitle.FINISHED;
