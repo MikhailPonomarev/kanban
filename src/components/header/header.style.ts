@@ -13,6 +13,10 @@ export const StyledHeader = styled.header`
 export const Title = styled.span`
     font-size: 28px;
     color: ${colors.white};
+
+    @media (max-width: 375px) {
+        display: none;
+    }
 `;
 
 export const User = styled.div`
@@ -22,6 +26,10 @@ export const User = styled.div`
     width: 65px;
     height: 40px;
     cursor: pointer;
+
+    @media (max-width: 375px) {
+        margin-left: auto;
+    }
 `;
 
 export const UserDropdownOption = styled.li`

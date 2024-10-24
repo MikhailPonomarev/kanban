@@ -6,6 +6,13 @@ const GlobalStyle = createGlobalStyle`
         margin: 0 auto;
         font-family: "Roboto", serif;
     }
+
+    @media (max-width: 375px) {
+        body {
+            width: 375px;
+            /* overflow-y: scroll; */
+        }
+    }
 `;
 
 export default GlobalStyle;

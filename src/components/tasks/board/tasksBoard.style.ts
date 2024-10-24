@@ -8,4 +8,11 @@ export const Board = styled.main`
     padding-bottom: 30px;
     height: 590px;
     background-color: ${colors.primaryBlue};
+
+    @media (max-width: 375px) {
+        flex-direction: column;
+        gap: 50px;
+        align-items: center;
+        height: auto;
+    }
 `;
